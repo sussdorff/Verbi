@@ -35,6 +35,7 @@ class Config:
     OLLAMA_LLM = os.getenv("OLLAMA_LLM", "llama3:8b")
     GROQ_LLM = os.getenv("GROQ_LLM", "llama3-8b-8192")
     OPENAI_LLM = os.getenv("OPENAI_LLM", "gpt-4o")
+    OPENROUTER_LLM = os.getenv("OPENROUTER_LLM", "openai/gpt-3.5-turbo")
 
     # API keys and paths
     OPENAI_API_KEY = os.getenv("OPENAI_API_KEY")
@@ -42,6 +43,7 @@ class Config:
     DEEPGRAM_API_KEY = os.getenv("DEEPGRAM_API_KEY")
     ELEVENLABS_API_KEY = os.getenv("ELEVENLABS_API_KEY")
     CARTESIA_API_KEY = os.getenv("CARTESIA_API_KEY")
+    OPENROUTER_API_KEY = os.getenv("OPENROUTER_API_KEY")
     LOCAL_MODEL_PATH = os.getenv("LOCAL_MODEL_PATH")
 
     # for serving the MeloTTS model
@@ -59,7 +61,7 @@ class Config:
         ValueError: If a required environment variable is not set or has an invalid value.
         """
         valid_transcription_models = ['openai', 'groq', 'deepgram', 'fastwhisperapi', 'local']
-        valid_response_models = ['openai', 'groq', 'ollama', 'local']
+        valid_response_models = ['openai', 'groq', 'ollama', 'openrouter', 'local']
         valid_tts_models = ['openai', 'deepgram', 'elevenlabs', 'melotts', 'cartesia', 'local']
 
         if Config.TRANSCRIPTION_MODEL not in valid_transcription_models:

@@ -4,6 +4,7 @@ from openai import OpenAI
 from groq import Groq
 import ollama
 import logging
+import requests
 from voice_assistant.config import Config
 
 
@@ -42,6 +43,22 @@ def generate_response(model, api_key, chat_history, local_model_path=None):
                 # stream=True,
             )
             return response['message']['content']
+        elif model == 'openrouter':
+            headers = {
+                "HTTP-Referer": "https://your-app-url.com",  # Replace with your app's URL
+                "X-Title": "Your App Name",  # Replace with your app's name
+                "Authorization": f"Bearer {api_key}"
+            }
+            response = requests.post(
+                "https://openrouter.ai/api/v1/chat/completions",
+                headers=headers,
+                json={
+                    "model": Config.OPENROUTER_LLM,
+                    "messages": chat_history
+                }
+            )
+            response.raise_for_status()
+            return response.json()['choices'][0]['message']['content']
         elif model == 'local':
             # Placeholder for local LLM response generation
             return "Generated response from local model"
