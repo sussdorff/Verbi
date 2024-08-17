@@ -74,7 +74,14 @@ voice_assistant/
    pip install -r requirements.txt
 ```
 
-   Note for macOS users: The installation process will attempt to install PortAudio using Homebrew. Make sure you have Homebrew installed on your system. If you encounter any issues, you may need to install PortAudio manually using `brew install portaudio`.
+   Note for macOS users: You may need to install PyAudio manually. Follow these steps:
+   1. Install PortAudio using Homebrew: `brew install portaudio`
+   2. Install PyAudio: `pip install PyAudio`
+   
+   If you encounter issues, you might need to specify the PortAudio path:
+   ```
+   pip install --global-option="build_ext" --global-option="-I/opt/homebrew/include" --global-option="-L/opt/homebrew/lib" PyAudio
+   ```
 
 4. 🛠️ **Set up the environment variables**
 
