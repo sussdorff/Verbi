@@ -38,3 +38,4 @@ cartesia
 soundfile
 ollama
 pydub
+pyaudio
