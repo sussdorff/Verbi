@@ -139,3 +139,8 @@ cython_debug/
 # Exception for voice_samples
 !voice_samples/*.mp3
 !voice_samples/*.wav
+.aider.chat.history.md
+.aider.input.history
+.aider.tags.cache.v3/cache.db
+.aider.tags.cache.v3/cache.db-shm
+.aider.tags.cache.v3/cache.db-wal

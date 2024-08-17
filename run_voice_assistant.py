@@ -6,7 +6,7 @@ from colorama import Fore, init
 from voice_assistant.audio import record_audio, play_audio
 from voice_assistant.transcription import transcribe_audio
 from voice_assistant.response_generation import generate_response
-from voice_assistant.text_to_speech import text_to_speech
+from voice_assistant.text_to_speech import text_to_speech, get_cartesia_voices, select_voice
 from voice_assistant.utils import delete_file
 from voice_assistant.config import Config
 from voice_assistant.api_key_manager import get_transcription_api_key, get_response_api_key, get_tts_api_key
@@ -19,7 +19,6 @@ init(autoreset=True)
 
 import threading
 
-
 def main():
     """
     Main function to run the voice assistant.
@@ -29,6 +28,13 @@ def main():
          You are friendly and fun and you will help the users with their requests.
          Your answers are short and concise. """}
     ]
+
+    # If using Cartesia, get available voices once at the start
+    selected_voice_id = None
+    if Config.TTS_MODEL == 'cartesia':
+        tts_api_key = get_tts_api_key()
+        available_voices = get_cartesia_voices(tts_api_key)
+        selected_voice_id = select_voice(available_voices)
 
     while True:
         try:
@@ -65,7 +71,7 @@ def main():
             chat_history.append({"role": "assistant", "content": response_text})
 
             # Determine the output file format based on the TTS model
-            if Config.TTS_MODEL == 'openai' or Config.TTS_MODEL == 'elevenlabs' or Config.TTS_MODEL == 'melotts' or Config.TTS_MODEL == 'cartesia':
+            if Config.TTS_MODEL in ['openai', 'elevenlabs', 'melotts', 'cartesia']:
                 output_file = 'output.mp3'
             else:
                 output_file = 'output.wav'
@@ -74,12 +80,10 @@ def main():
             tts_api_key = get_tts_api_key()
 
             # Convert the response text to speech and save it to the appropriate file
-            text_to_speech(Config.TTS_MODEL, tts_api_key, response_text, output_file, Config.LOCAL_MODEL_PATH)
-
+            text_to_speech(Config.TTS_MODEL, tts_api_key, response_text, output_file, Config.LOCAL_MODEL_PATH, selected_voice_id)
+            
             # Play the generated speech audio
-            if Config.TTS_MODEL=="cartesia":
-                pass
-            else:
+            if Config.TTS_MODEL != "cartesia":
                 play_audio(output_file)
             
             # Clean up audio files
