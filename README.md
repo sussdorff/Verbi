@@ -73,6 +73,9 @@ voice_assistant/
 ```shell
    pip install -r requirements.txt
 ```
+
+   Note for macOS users: The installation process will attempt to install PortAudio using Homebrew. Make sure you have Homebrew installed on your system. If you encounter any issues, you may need to install PortAudio manually using `brew install portaudio`.
+
 4. 🛠️ **Set up the environment variables**
 
 Create a  `.env` file in the root directory and add your API keys:
