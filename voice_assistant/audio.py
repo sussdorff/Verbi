@@ -50,7 +50,17 @@ def record_audio(file_path, timeout=10, phrase_time_limit=None, retries=3, energ
     else:
         logging.error("Recording failed after all retries")
 
+import ffmpeg
+import subprocess
+
 def play_audio(file_path):
+    try:
+        # Use ffplay (part of ffmpeg) to play the audio
+        subprocess.run(['ffplay', '-nodisp', '-autoexit', file_path], check=True)
+    except subprocess.CalledProcessError:
+        print(f"Error playing audio file: {file_path}")
+    except FileNotFoundError:
+        print("ffplay (part of ffmpeg) is not installed or not in the system PATH")
     """
     Play an audio file using pygame.
     
