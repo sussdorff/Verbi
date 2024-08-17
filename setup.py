@@ -1,6 +1,18 @@
 # setup.py
 
+import platform
+import subprocess
 from setuptools import setup, find_packages
+
+def install_portaudio():
+    if platform.system() == "Darwin":
+        try:
+            subprocess.check_call(["brew", "install", "portaudio"])
+            print("PortAudio installed successfully via Homebrew.")
+        except subprocess.CalledProcessError:
+            print("Failed to install PortAudio. Please install it manually using 'brew install portaudio'")
+
+install_portaudio()
 
 setup(
     name='jarvis-voice-assistant',
